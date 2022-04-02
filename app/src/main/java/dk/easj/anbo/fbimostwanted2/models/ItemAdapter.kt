@@ -29,14 +29,12 @@ class ItemAdapter(
         // contents of the view with that element
         viewHolder.title.text = items[position].title
         viewHolder.body.text = items[position].toString()
-        //viewHolder.details.text = items[position].details
     }
 
     class MyViewHolder(itemView: View, private val onItemClicked: (position: Int) -> Unit) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val body: TextView = itemView.findViewById(R.id.body)
         val title: TextView = itemView.findViewById(R.id.title)
-        val details: TextView = itemView.findViewById(R.id.details)
 
         init {
             itemView.setOnClickListener(this)

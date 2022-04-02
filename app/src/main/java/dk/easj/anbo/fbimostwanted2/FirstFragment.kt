@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import dk.easj.anbo.fbimostwanted2.databinding.FragmentFirstBinding
 import dk.easj.anbo.fbimostwanted2.models.CatalogViewModel
 import dk.easj.anbo.fbimostwanted2.models.ItemAdapter
@@ -17,7 +18,7 @@ class FirstFragment : Fragment() {
     private var _binding: FragmentFirstBinding? = null
     private val binding get() = _binding!!
 
-    private val booksViewModel: CatalogViewModel by activityViewModels()
+    private val catalogViewModel: CatalogViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +35,7 @@ class FirstFragment : Fragment() {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }*/
 
-        booksViewModel.booksLiveData.observe(viewLifecycleOwner) { catalog ->
+        catalogViewModel.booksLiveData.observe(viewLifecycleOwner) { catalog ->
             Log.d("APPLEPIE", catalog.toString())
 
             val adapter = ItemAdapter(catalog.items) { position ->
@@ -43,6 +44,24 @@ class FirstFragment : Fragment() {
             }
             binding.recyclerView.layoutManager = LinearLayoutManager(activity)
             binding.recyclerView.adapter = adapter
+        }
+
+        catalogViewModel.errorMessageLiveData.observe(viewLifecycleOwner) { errorMessage ->
+            binding.textViewError.text = errorMessage
+        }
+
+        binding.buttonNext.setOnClickListener {
+            catalogViewModel.currentPage++ // TODO upper limit on currentPage
+            catalogViewModel.reload()
+        }
+
+        binding.buttonPrev.setOnClickListener {
+            if (catalogViewModel.currentPage == 1) {
+                Snackbar.make(it, "First page", Snackbar.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            catalogViewModel.currentPage--
+            catalogViewModel.reload()
         }
     }
 

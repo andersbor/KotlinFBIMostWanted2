@@ -36,13 +36,19 @@ class SecondFragment : Fragment() {
             return
         }
         binding.textviewTitle.text = item.title
-        if (item.details != null) {
-            val details =
-                item.details.subSequence(3, item.details.length - 4) // remove <p> from details
+        if (item.details.isNullOrBlank()) {
+            binding.textviewDescription.text = item.description
+        } else {
+            // https://www.baeldung.com/kotlin/string-replace-substring
+            // https://www.tutorialspoint.com/how-to-remove-the-html-tags-from-a-given-string-in-java
+            val regex: Regex = "<.*?>".toRegex()
+            val details = item.details.replace(regex, "")
+            //item.details.subSequence(3, item.details.length - 4) // remove <p> from details
             binding.textviewDescription.text = details
         }
 
         if (item.images != null) {
+            // https://guides.codepath.com/android/Displaying-Images-with-the-Glide-Library
             Glide.with(requireActivity())
                 .load(item.images[0].original)
                 .into(binding.imageView)

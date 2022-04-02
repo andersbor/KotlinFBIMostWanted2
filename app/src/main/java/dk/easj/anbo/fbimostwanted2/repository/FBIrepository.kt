@@ -1,4 +1,4 @@
-package dk.easj.anbo.fbimostwanted.repository
+package dk.easj.anbo.fbimostwanted2.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -24,11 +24,11 @@ class FBIrepository {
             //.addConverterFactory(MoshiConverterFactory.create(moshi)) // Moshi, added to Gradle dependencies
             .build()
         fbiService = build.create(FBIservice::class.java)
-        getCatalog()
+        getCatalog(1)
     }
 
-    fun getCatalog() {
-        fbiService.getCatalog().enqueue(object : Callback<Catalog> {
+    fun getCatalog( currentPage: Int) {
+        fbiService.getCatalog(currentPage).enqueue(object : Callback<Catalog> {
             override fun onResponse(call: Call<Catalog>, response: Response<Catalog>) {
                 if (response.isSuccessful) {
                     //Log.d("APPLE", response.body().toString())
