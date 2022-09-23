@@ -36,7 +36,7 @@ class SecondFragment : Fragment() {
             return
         }
         binding.textviewTitle.text = item.title
-        if (item.details.isNullOrBlank()) {
+        if (item.details.isBlank()) {
             binding.textviewDescription.text = item.description
         } else {
             // https://www.baeldung.com/kotlin/string-replace-substring

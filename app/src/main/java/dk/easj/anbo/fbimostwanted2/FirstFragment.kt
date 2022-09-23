@@ -26,7 +26,7 @@ class FirstFragment : Fragment() {
     ): View {
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
 
-        mDetector = GestureDetectorCompat(activity, MyGestureListener())
+        mDetector = GestureDetectorCompat(requireContext(), MyGestureListener())
         val rootView = binding.root
         rootView.setOnTouchListener { view, motionEvent ->
             mDetector.onTouchEvent(motionEvent)
