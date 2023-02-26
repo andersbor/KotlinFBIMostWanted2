@@ -1,7 +1,9 @@
 package dk.easj.anbo.fbimostwanted2.models
 
+import com.squareup.moshi.Json
+
 data class Catalog(
-    val items: List<Item>,
+    @field:Json(name = "items") val items: List<Item>,
     val page: Int,
     val total: Int
 )

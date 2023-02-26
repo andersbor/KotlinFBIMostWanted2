@@ -7,7 +7,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 
 class FBIrepository {
     private val url = "https://api.fbi.gov/wanted/v1/"
@@ -19,15 +19,15 @@ class FBIrepository {
         //val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
         val build: Retrofit = Retrofit.Builder()
             .baseUrl(url)
-            .addConverterFactory(GsonConverterFactory.create()) // GSON
+            //.addConverterFactory(GsonConverterFactory.create()) // GSON
             //.addConverterFactory(KotlinJsonAdapterFactory)
-            //.addConverterFactory(MoshiConverterFactory.create(moshi)) // Moshi, added to Gradle dependencies
+            .addConverterFactory(MoshiConverterFactory.create()) // Moshi, added to Gradle dependencies
             .build()
         fbiService = build.create(FBIservice::class.java)
         getCatalog(1)
     }
 
-    fun getCatalog( currentPage: Int) {
+    fun getCatalog(currentPage: Int) {
         fbiService.getCatalog(currentPage).enqueue(object : Callback<Catalog> {
             override fun onResponse(call: Call<Catalog>, response: Response<Catalog>) {
                 if (response.isSuccessful) {

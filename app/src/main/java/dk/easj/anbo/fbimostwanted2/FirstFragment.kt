@@ -43,7 +43,7 @@ class FirstFragment : Fragment() {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }*/
 
-        catalogViewModel.booksLiveData.observe(viewLifecycleOwner) { catalog ->
+        catalogViewModel.itemsLiveData.observe(viewLifecycleOwner) { catalog ->
             Log.d("APPLEPIE", catalog.toString())
 
             val adapter = ItemAdapter(catalog.items) { position ->
